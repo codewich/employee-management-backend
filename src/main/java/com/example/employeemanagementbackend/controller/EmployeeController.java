@@ -18,18 +18,29 @@ public class EmployeeController {
     private EmployeeRepository employeeRepository;
 
     @GetMapping("/employees")
-    public List<Employee> getAllEmployee(){
+    public List<Employee> getAllEmployee() {
         return employeeRepository.findAll();
     }
 
     @PostMapping("/employees")
-    public Employee createEmployee(@RequestBody Employee employee){
+    public Employee createEmployee(@RequestBody Employee employee) {
         return employeeRepository.save(employee);
     }
 
     @GetMapping("/employees/{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id){
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
         return ResponseEntity.ok(employeeRepository.findById(id).orElseThrow(
-                ()->new ResourceNotFoundException("Employee with id="+id+" does not exist.")));
+                () -> new ResourceNotFoundException("Employee with id=" + id + " does not exist."))
+        );
+    }
+
+    @PutMapping("/employees/{id}")
+    public ResponseEntity<Employee> updateEmployeeById(@PathVariable Long id, @RequestBody Employee employee) {
+        Employee oldEmployee = employeeRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Employee with id=" + id + " does not exist."));
+        oldEmployee.setFirstName(employee.getFirstName());
+        oldEmployee.setLastName(employee.getLastName());
+        oldEmployee.setEmailId(employee.getEmailId());
+        return ResponseEntity.ok(employeeRepository.save(oldEmployee));
     }
 }
