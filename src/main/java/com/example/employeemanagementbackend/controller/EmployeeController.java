@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://149.28.78.47:3000")
 @RestController
 @RequestMapping("/api/v1/")
 public class EmployeeController {
